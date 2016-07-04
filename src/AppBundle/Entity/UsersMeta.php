@@ -12,13 +12,41 @@ class UsersMeta
     /**
      * @var integer
      */
+    private $userId;
+
+    /**
+     * @var integer
+     */
     private $roleId;
 
     /**
      * @var integer
      */
-    private $userId;
+    private $entryId;
 
+
+    /**
+     * Set userId
+     *
+     * @param integer $userId
+     * @return UsersMeta
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
+
+        return $this;
+    }
+
+    /**
+     * Get userId
+     *
+     * @return integer 
+     */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
 
     /**
      * Set roleId
@@ -44,12 +72,12 @@ class UsersMeta
     }
 
     /**
-     * Get userId
+     * Get entryId
      *
      * @return integer 
      */
-    public function getUserId()
+    public function getEntryId()
     {
-        return $this->userId;
+        return $this->entryId;
     }
 }

@@ -3,12 +3,13 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
  */
-class User
-{
+class User implements UserInterface, \Serializable {
+
     /**
      * @var string
      */
@@ -34,15 +35,13 @@ class User
      */
     private $id;
 
-
     /**
      * Set username
      *
      * @param string $username
      * @return User
      */
-    public function setUsername($username)
-    {
+    public function setUsername($username) {
         $this->username = $username;
 
         return $this;
@@ -53,8 +52,7 @@ class User
      *
      * @return string 
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->username;
     }
 
@@ -64,8 +62,7 @@ class User
      * @param string $password
      * @return User
      */
-    public function setPassword($password)
-    {
+    public function setPassword($password) {
         $this->password = $password;
 
         return $this;
@@ -76,8 +73,7 @@ class User
      *
      * @return string 
      */
-    public function getPassword()
-    {
+    public function getPassword() {
         return $this->password;
     }
 
@@ -87,8 +83,7 @@ class User
      * @param string $email
      * @return User
      */
-    public function setEmail($email)
-    {
+    public function setEmail($email) {
         $this->email = $email;
 
         return $this;
@@ -99,8 +94,7 @@ class User
      *
      * @return string 
      */
-    public function getEmail()
-    {
+    public function getEmail() {
         return $this->email;
     }
 
@@ -110,8 +104,7 @@ class User
      * @param boolean $active
      * @return User
      */
-    public function setActive($active)
-    {
+    public function setActive($active) {
         $this->active = $active;
 
         return $this;
@@ -122,8 +115,7 @@ class User
      *
      * @return boolean 
      */
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 
@@ -132,8 +124,30 @@ class User
      *
      * @return integer 
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
+
+    public function eraseCredentials() {
+        
+    }
+
+    public function getRoles() {
+        // first get meta containig the roles:
+        $metaService = $this->get('app.meta_manager');
+        return $metaService->getMeta($this->id);
+    }
+
+    public function getSalt() {
+        
+    }
+
+    public function serialize() {
+        
+    }
+
+    public function unserialize($serialized) {
+        
+    }
+
 }
