@@ -30,7 +30,7 @@ class MetaManager {
         foreach ($userMetaIds as $metaId) {
             $aRole = $rolesRepo->findOneBy(array('id' => $metaId));
             if ($aRole) {
-                array_push($roles, $aRole);
+                array_push($roles, $aRole->getRole());
             }
         }
         return $roles;

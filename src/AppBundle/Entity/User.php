@@ -133,8 +133,14 @@ class User implements UserInterface, \Serializable {
     }
 
     public function getRoles() {
-        // first get meta containig the roles:
-        $metaService = $this->get('app.meta_manager');
+        global $kernel;
+
+        if ('AppCache' == get_class($kernel)) {
+            $kernel = $kernel->getKernel();
+        }
+
+        $metaService = $kernel->getContainer()->get('app.meta_manager');
+        // calling meta service
         return $metaService->getMeta($this->id);
     }
 

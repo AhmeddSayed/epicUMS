@@ -1,0 +1,16 @@
+<form class="form-signin" name='register_form' id='register_form' method='post' action='{{path('register')}}'>
+    {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder':'User Name'}}) }}<br>
+
+    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder':'Password'}}) }}
+    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder':'Email'}}) }}
+    {% if is_granted('ROLE_ADMIN') == true%}
+        <select name="roles">
+            <option value ="ROLE_USER">ROLE_USER</option>
+            <option value ="ROLE_ADMIN">ROLE_ADMIN</option>
+        </Select>
+    {%endif %}
+
+    {{ form_widget(form.confirm, {'attr': {'class': 'form-control', 'placeholder':'Confirm Password'}}) }}
+
+    <button class="btn btn-lg btn-primary btn-block" type="submit" >Register</button>
+</form>

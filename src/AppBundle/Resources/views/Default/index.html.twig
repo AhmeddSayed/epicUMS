@@ -1,0 +1,9 @@
+{% if is_granted('ROLE_ADMIN') == true %}
+    <a href="/create">create user</href><br>
+    <a href="add_group">add user group</href><br>
+    <a href="edit_user">assign user to other groups</href><br>
+{% else %}
+    Welcome! <br>
+    <a href="{{path('logout')}}">Sign-out</href><br>
+
+{% endif %}
