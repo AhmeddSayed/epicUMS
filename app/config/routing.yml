@@ -21,3 +21,7 @@ register:
 add_group:
     path: /add_group
     defaults: { _controller: AppBundle:Default:addGroup}
+
+edit:
+    path: /edit
+    defaults: { _controller: AppBundle:Default:editUser}

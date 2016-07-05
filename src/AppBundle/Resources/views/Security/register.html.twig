@@ -2,13 +2,14 @@
     Username: <input type="text" name="username" placeholder="Username"><br>
     Password: <input type="password" name="password" placeholder="Password"><br>
     Confirm:  <input type="password" name="confirm" placeholder="Reenter Password"><br>
-    
+
     Select role: <input type="email" name="email" placeholder="email"><br>
     {% if is_granted('ROLE_ADMIN') == true%}
         <select name="roles">
             #TODO: loop through all roles
-            <option value ="ROLE_USER">ROLE_USER</option>
-            <option value ="ROLE_ADMIN">ROLE_ADMIN</option>
+            {% for aRole in roles %} 
+                <option value ="{{aRole.role}}">{{aRole.role}}</option>
+            {% endfor %}
         </Select>
     {%endif %}
 

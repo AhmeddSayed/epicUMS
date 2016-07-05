@@ -23,8 +23,6 @@ class SecurityController extends Controller {
             $user->setActive(true);
 
 
-
-
             $pwd = $request->get('password');
             $confirm = $request->get('confirm');
 
@@ -50,8 +48,16 @@ class SecurityController extends Controller {
             $url = $this->generateUrl('index');
             return $this->redirect($url);
         } else {
+            // need to retrieve groups
+            $em = $this->getDoctrine()->getManager();
+            $RolesRepo = $em->getRepository('AppBundle:Roles');
 
-            return $this->render('AppBundle:Security:register.html.twig');
+            $roles = array();
+            foreach ($RolesRepo->findAll() as $aRole) {
+                array_push($roles, $aRole);
+            }
+
+            return $this->container->get('templating')->renderResponse('AppBundle:Security:register.html.twig', array('roles' => $roles));
         }
 
 
