@@ -36,4 +36,27 @@ class MetaManager {
         return $roles;
     }
 
+    public function setMeta($userId, $roles) {
+        $metaRepo = $this->em->getRepository('AppBundle:UsersMeta');
+        $userMetaIds = array();
+        $userMetaIds = $metaRepo->createQueryBuilder('i')
+                ->from('AppBundle:UsersMeta', 'u')
+                ->select('u.roleId')
+                ->where('u.userId = :userId')
+                ->setParameters(array('userId' => $userId))
+                ->getQuery()
+                ->getResult();
+        ;
+        $roles = array();
+
+        $rolesRepo = $this->em->getRepository('AppBundle:Roles');
+
+        foreach ($userMetaIds as $metaId) {
+            $aRole = $rolesRepo->findOneBy(array('id' => $metaId));
+            if ($aRole) {
+                array_push($roles, $aRole->getRole());
+            }
+        }
+    }
+
 }

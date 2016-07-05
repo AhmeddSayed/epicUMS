@@ -9,3 +9,11 @@ login:
 logout:
     path: /logout
     defaults: { _controller: AppBundle:Security:logout}
+    
+create:
+    path: /create
+    defaults: { _controller: AppBundle:Security:create}
+    
+register:
+    path: /registeration
+    defaults: { _controller: AppBundle:Security:register}

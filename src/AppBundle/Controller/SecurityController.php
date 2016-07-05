@@ -11,13 +11,16 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class SecurityController extends Controller {
 
     public function registerAction(Request $request) {
+
         if ($request->getMethod() == 'POST') {
             $em = $this->getDoctrine()->getManager();
-            $form = $this->createForm(new RegistrationType(), new User());
-            $form->handleRequest($request);
 
             $user = new User();
-            $user = $form->getData();
+
+            
+            $user->setUsername(trim($request->get('username')));
+            $user->setEmail(trim($request->get('email')));
+
             $securityContext = $this->container->get('security.authorization_checker');
 
             if ($securityContext->isGranted('ROLE_ADMIN')) {
@@ -36,7 +39,7 @@ class SecurityController extends Controller {
             $em->persist($user);
             $em->flush();
 
-            $url = $this->generateUrl('app');
+            $url = $this->generateUrl('index');
             return $this->redirect($url);
         } else {
             $registration = new User();
@@ -45,6 +48,9 @@ class SecurityController extends Controller {
 
             return $this->render('AppBundle:Default:register.html.twig', ['form' => $form->createView()]);
         }
+
+
+        return $this->render('AppBundle:Security:register.html.twig');
     }
 
     public function loginAction(Request $request) {
@@ -65,10 +71,10 @@ class SecurityController extends Controller {
                     $this->get('session')->set('_security_main', serialize($token));
                     return $this->redirect($this->generateUrl('index'));
                 } else {
-                    return $this->render('AppBundle:Default:login.html.twig');
+                    return $this->render('AppBundle:Security:login.html.twig');
                 }
             } else {
-                return $this->render('AppBundle:Default:login.html.twig');
+                return $this->render('AppBundle:Security:login.html.twig');
             }
         }
     }

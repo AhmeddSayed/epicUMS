@@ -1,16 +1,17 @@
 <form class="form-signin" name='register_form' id='register_form' method='post' action='{{path('register')}}'>
-    {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder':'User Name'}}) }}<br>
-
-    {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder':'Password'}}) }}
-    {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder':'Email'}}) }}
+    Username: <input type="text" name="username" placeholder="Username"><br>
+    Password: <input type="password" name="password" placeholder="Password"><br>
+    Confirm:  <input type="password" name="confirm" placeholder="Reenter Password"><br>
+    
+    Select role: <input type="email" name="email" placeholder="email"><br>
     {% if is_granted('ROLE_ADMIN') == true%}
         <select name="roles">
+            #TODO: loop through all roles
             <option value ="ROLE_USER">ROLE_USER</option>
             <option value ="ROLE_ADMIN">ROLE_ADMIN</option>
         </Select>
     {%endif %}
 
-    {{ form_widget(form.confirm, {'attr': {'class': 'form-control', 'placeholder':'Confirm Password'}}) }}
 
     <button class="btn btn-lg btn-primary btn-block" type="submit" >Register</button>
 </form>
