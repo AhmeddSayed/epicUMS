@@ -6,7 +6,6 @@
     Select role: <input type="email" name="email" placeholder="email"><br>
     {% if is_granted('ROLE_ADMIN') == true%}
         <select name="roles">
-            #TODO: loop through all roles
             {% for aRole in roles %} 
                 <option value ="{{aRole.role}}">{{aRole.role}}</option>
             {% endfor %}

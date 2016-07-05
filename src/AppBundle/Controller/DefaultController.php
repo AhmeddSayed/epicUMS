@@ -50,7 +50,44 @@ class DefaultController extends Controller {
     }
 
     public function editUserAction(Request $request) {
-        
+        if ($request->getMethod() == "POST") {
+            $role = $request->get('roles');
+            $id = $request->request->get('id');
+            $em = $this->getDoctrine()->getManager();
+            $UsersRepo = $em->getRepository('AppBundle:User');
+
+            $user = new User();
+            $user = $UsersRepo->findOneBy(array('id'=>$id));
+
+            $user->setRoles($role);
+            $em->persist($user);
+            $em->flush();
+
+            $url = $this->generateUrl('edit');
+            return $this->redirect($url);
+        } elseif ($request->get('id') == null) {
+            // need to retrieve users
+            $em = $this->getDoctrine()->getManager();
+            $UsersRepo = $em->getRepository('AppBundle:User');
+
+            $users = array();
+            foreach ($UsersRepo->findAll() as $aUser) {
+                array_push($users, $aUser);
+            }
+
+            return $this->container->get('templating')->renderResponse('AppBundle:Default:show.html.twig', array('users' => $users));
+        } else {
+            // need to retrieve groups
+            $em = $this->getDoctrine()->getManager();
+            $RolesRepo = $em->getRepository('AppBundle:Roles');
+
+            $roles = array();
+            foreach ($RolesRepo->findAll() as $aRole) {
+                array_push($roles, $aRole);
+            }
+
+            return $this->container->get('templating')->renderResponse('AppBundle:Default:edit.html.twig', array('roles' => $roles));
+        }
     }
 
 }

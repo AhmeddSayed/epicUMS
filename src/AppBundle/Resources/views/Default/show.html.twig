@@ -1,0 +1,33 @@
+{% if is_granted('ROLE_ADMIN') == true%}
+    <table name="users">
+        <tr>
+            <td> User Id </td>
+            <td> Username </td>
+            <td> usergroup </td>
+            <td> email </td>
+        </tr>
+        {% for aUser in users %} 
+            <tr>
+                <td>
+                    {{aUser.id}}
+                </td>
+                <td>
+                    {{aUser.username}}
+                </td>
+
+                {% for role in aUser.getRoles() %} 
+                    <td>
+                        {{role}}
+                    </td>
+                {% endfor %}
+
+                <td>
+                    {{aUser.email}}
+                </td>
+                
+                <td>
+                    <a href="{{path('edit', {'id': aUser.id})}}">edit</a>
+            </tr>
+        {% endfor %}
+    </table>
+{%endif %}

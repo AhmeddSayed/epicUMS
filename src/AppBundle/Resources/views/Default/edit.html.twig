@@ -1,0 +1,14 @@
+{% if is_granted('ROLE_ADMIN') == true%}
+
+    <form class="form-signin" method='POST' action='{{path('edit')}}'>
+        Select Role: 
+        <input type='hidden' name='id' value='{{app.request.get('id')}}'>
+        <select name="roles">
+            {% for aRole in roles %} 
+                <option value ="{{aRole.role}}">{{aRole.role}}</option>
+            {% endfor %}
+        </select>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">save</button>
+    </form>
+
+{%endif %}

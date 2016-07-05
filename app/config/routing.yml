@@ -23,5 +23,5 @@ add_group:
     defaults: { _controller: AppBundle:Default:addGroup}
 
 edit:
-    path: /edit
-    defaults: { _controller: AppBundle:Default:editUser}
+    path: /edit_user/{id}
+    defaults: { _controller: AppBundle:Default:editUser, id: null }
