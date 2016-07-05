@@ -17,9 +17,27 @@ class SecurityController extends Controller {
 
             $user = new User();
 
-            
+
             $user->setUsername(trim($request->get('username')));
             $user->setEmail(trim($request->get('email')));
+            $user->setActive(true);
+
+
+
+
+            $pwd = $request->get('password');
+            $confirm = $request->get('confirm');
+
+            if ($pwd != $confirm) {
+                return $this->render('AppBundle:Security:register.html.twig');
+            }
+
+            $encoder = $this->container->get('security.password_encoder');
+            $pwd = $encoder->encodePassword($user, $pwd);
+            $user->setPassword($pwd);
+
+            $em->persist($user);
+            $em->flush();
 
             $securityContext = $this->container->get('security.authorization_checker');
 
@@ -29,24 +47,11 @@ class SecurityController extends Controller {
                 $user->setRoles('ROLE_USER');
             }
 
-            $user->setActive(true);
-
-            $pwd = $user->getPassword();
-            $encoder = $this->container->get('security.password_encoder');
-            $pwd = $encoder->encodePassword($user, $pwd);
-            $user->setPassword($pwd);
-
-            $em->persist($user);
-            $em->flush();
-
             $url = $this->generateUrl('index');
             return $this->redirect($url);
         } else {
-            $registration = new User();
 
-            $form = $this->createForm(new RegistrationType(), $registration, ['action' => $this->generateUrl('register'), 'method' => 'POST']);
-
-            return $this->render('AppBundle:Default:register.html.twig', ['form' => $form->createView()]);
+            return $this->render('AppBundle:Security:register.html.twig');
         }
 
 
@@ -54,6 +59,7 @@ class SecurityController extends Controller {
     }
 
     public function loginAction(Request $request) {
+
         if ($request->getMethod() != 'POST') {
             return $this->render('AppBundle:Security:login.html.twig');
         } else {

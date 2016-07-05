@@ -15,9 +15,9 @@ class UsersMeta
     private $userId;
 
     /**
-     * @var integer
+     * @var string
      */
-    private $roleId;
+    private $role;
 
     /**
      * @var integer
@@ -54,9 +54,9 @@ class UsersMeta
      * @param integer $roleId
      * @return UsersMeta
      */
-    public function setRoleId($roleId)
+    public function setRole($role)
     {
-        $this->roleId = $roleId;
+        $this->role = $role;
 
         return $this;
     }
@@ -66,9 +66,9 @@ class UsersMeta
      *
      * @return integer 
      */
-    public function getRoleId()
+    public function getRole()
     {
-        return $this->roleId;
+        return $this->role;
     }
 
     /**

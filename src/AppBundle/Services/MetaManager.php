@@ -3,6 +3,7 @@
 namespace AppBundle\Services;
 
 use Doctrine\ORM\EntityManager;
+use AppBundle\Entity\UsersMeta;
 
 class MetaManager {
 
@@ -14,49 +15,34 @@ class MetaManager {
 
     public function getMeta($userId) {
         $metaRepo = $this->em->getRepository('AppBundle:UsersMeta');
-        $userMetaIds = array();
-        $userMetaIds = $metaRepo->createQueryBuilder('i')
+        $userMetas = $metaRepo->createQueryBuilder('i')
                 ->from('AppBundle:UsersMeta', 'u')
-                ->select('u.roleId')
+                ->select('u.role')
                 ->where('u.userId = :userId')
                 ->setParameters(array('userId' => $userId))
                 ->getQuery()
                 ->getResult();
-        ;
+
         $roles = array();
 
-        $rolesRepo = $this->em->getRepository('AppBundle:Roles');
-
-        foreach ($userMetaIds as $metaId) {
-            $aRole = $rolesRepo->findOneBy(array('id' => $metaId));
-            if ($aRole) {
-                array_push($roles, $aRole->getRole());
+        foreach ($userMetas as $aMeta) {
+            if (trim($aMeta["role"])) {
+                array_push($roles, $aMeta["role"]);
             }
         }
+        
         return $roles;
     }
 
-    public function setMeta($userId, $roles) {
+    public function setMeta($userId, $role) {
         $metaRepo = $this->em->getRepository('AppBundle:UsersMeta');
-        $userMetaIds = array();
-        $userMetaIds = $metaRepo->createQueryBuilder('i')
-                ->from('AppBundle:UsersMeta', 'u')
-                ->select('u.roleId')
-                ->where('u.userId = :userId')
-                ->setParameters(array('userId' => $userId))
-                ->getQuery()
-                ->getResult();
-        ;
-        $roles = array();
 
-        $rolesRepo = $this->em->getRepository('AppBundle:Roles');
+        $userMeta = new UsersMeta();
+        $userMeta->setUserId($userId);
+        $userMeta->setRole($role);
 
-        foreach ($userMetaIds as $metaId) {
-            $aRole = $rolesRepo->findOneBy(array('id' => $metaId));
-            if ($aRole) {
-                array_push($roles, $aRole->getRole());
-            }
-        }
+        $this->em->persist($userMeta);
+        $this->em->flush();
     }
 
 }

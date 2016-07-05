@@ -17,3 +17,7 @@ create:
 register:
     path: /registeration
     defaults: { _controller: AppBundle:Security:register}
+
+add_group:
+    path: /add_group
+    defaults: { _controller: AppBundle:Default:addGroup}
